@@ -1,0 +1,35 @@
+name: "Build library"
+
+on:
+  push
+
+jobs:
+  build:
+  build-linux:
+    strategy:
+      matrix:
+        osver: [ubuntu-latest, ubuntu-24.04-arm]
+
+    runs-on: ${{ matrix.osver }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set dist name
+        run: |
+          if ${{ matrix.osver == 'ubuntu-24.04-arm' }}; then
+            echo "distname=rns-clipboard-linux-arm" >> "$GITHUB_ENV"
+          else
+            echo "distname=rns-clipboard-linux" >> "$GITHUB_ENV"
+          fi
+
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+
+      - run: |
+          cargo build -r
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.distname }}
+          path: target/release/*.so
