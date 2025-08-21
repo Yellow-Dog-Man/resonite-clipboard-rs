@@ -1,10 +1,10 @@
 [package]
-name = "resonite-clipboard-rs"
+name = "resonite_clipboard-rs"
 version = "0.1.0"
 edition = "2024"
 
 [lib]
-name = "resonite-clipboard_rs"
+name = "resonite_clipboard_rs"
 crate-type = ["dylib"]
 
 [dependencies]
